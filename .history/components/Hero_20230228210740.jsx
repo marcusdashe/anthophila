@@ -12,14 +12,14 @@ const Hero = () => {
                 <p className='text-center text-2xl'>Store them with us</p>
             </div>
             </header>
-            <section className=' w-100 bg-white shadow-2xl p-10 rounded-2xl flex justify-center items-center flex-col mt-20'>
+            <section className=' w-100 bg-white shadow-2xl p-6 rounded-2xl flex justify-center items-center flex-col mt-20'>
                <p className='font-bold'>Login As</p>
                 <div className='mt-7 flex flex-row space-x-7 justify-center'>
                     <Button isPrimary={true}><Link href={{pathname : "/signin", query: {"user":"testator"}}}>Testator</Link></Button> 
                     <Button isPrimary={false}><Link href={{pathname : "/signin", query: {"user":"beneficiary"}}}>Beneficiary</Link></Button> 
                 </div>
             </section>
-            <p className='fixed bottom-12 md:max-w-100 sm:max-w-50'>Do you want to proclaim the death of a testator? <Link className='text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500' href={"/proclaimTestatorDeath"}>Family Doctor</Link></p>
+            <p className='mt-5 fixed bottom-7'>Do you want to proclaim the death of a testator? <Link href={"/proclaimTestatorDeath"}>Family Doctor</Link></p>
         </div>
    
   )

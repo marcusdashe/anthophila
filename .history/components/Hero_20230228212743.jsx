@@ -19,7 +19,7 @@ const Hero = () => {
                     <Button isPrimary={false}><Link href={{pathname : "/signin", query: {"user":"beneficiary"}}}>Beneficiary</Link></Button> 
                 </div>
             </section>
-            <p className='fixed bottom-12 md:max-w-100 sm:max-w-50'>Do you want to proclaim the death of a testator? <Link className='text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500' href={"/proclaimTestatorDeath"}>Family Doctor</Link></p>
+            <p className='mt-5 fixed bottom-12 md:w-100'>Do you want to proclaim the death of a testator? <Link className='text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500' href={"/proclaimTestatorDeath"}>Family Doctor</Link></p>
         </div>
    
   )

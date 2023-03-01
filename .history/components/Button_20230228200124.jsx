@@ -6,7 +6,7 @@ const Button = ({isPrimary, children}) => {
     <>
     {
       isPrimary ?  
-      <button className="bg-[#492823] w-150 text-white py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500  snm:mr-3">
+      <button className="bg-[#492823] w-150 text-white py-2 px-6 rounded-2xl md:ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500">
         {children}
       </button> 
     : 

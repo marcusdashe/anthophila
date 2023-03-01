@@ -33,8 +33,8 @@ export const Nav = () => {
                     <Link href={link.link} key={idx} className="text-[#492823] hover:text-[#F5F1F3] duration-500 mr-3">{link.name}</Link>
                 </li>
               ))}
-              <Button isPrimary={true}><Link href= {{pathname : "/signin", query: {"user":"testator"}}}> Sign in </Link></Button>
-              <Button isPrimary={false}><Link href={"/signup"}>Sign up</Link></Button>
+              <Button isPrimary={true}>Sign in</Button>
+              <Button isPrimary={false}>Sign up</Button>
             </ul>
         </div>
     </div>
