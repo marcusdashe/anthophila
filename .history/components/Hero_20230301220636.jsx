@@ -1,9 +1,8 @@
 import Link from 'next/link'
-import React, {useState} from 'react'
+import React from 'react'
 import Button from './Button'
 
 const Hero = () => {
-   
   return (
         <div className='bg-gray-100 h-screen flex justify-center items-center flex-col'>
   

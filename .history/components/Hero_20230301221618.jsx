@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import Button from './Button'
 
 const Hero = () => {
-   
+    const [isOpen, setIsOpen] = useState(false);
   return (
         <div className='bg-gray-100 h-screen flex justify-center items-center flex-col'>
   

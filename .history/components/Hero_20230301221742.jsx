@@ -3,7 +3,15 @@ import React, {useState} from 'react'
 import Button from './Button'
 
 const Hero = () => {
-   
+    const [isOpen, setIsOpen] = useState(false)
+    const openModal = () => {
+        setIsOpen(true)
+      }
+    
+      const closeModal = () => {
+        setIsOpen(false)
+      }
+
   return (
         <div className='bg-gray-100 h-screen flex justify-center items-center flex-col'>
   

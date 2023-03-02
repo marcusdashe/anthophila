@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import Web3 from 'web3'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
@@ -43,7 +43,7 @@ const Signin = () => {
                 </span>
       </div>
     <div className="bg-white p-10 rounded-lg shadow-lg">
-      <h1 className="text-2xl font-medium mb-4">Login into your account</h1>
+      <h1 className="text-2xl font-medium mb-4">Create an account</h1>
       <form>
       
         <div className="mb-4">
@@ -51,7 +51,7 @@ const Signin = () => {
           <input type="password" id="password" name="password" className="border-[#5F3EB2] border-2 rounded-lg py-2 px-3 w-full" />
         </div>
        
-        <button onClick = {connectWalletHandler} className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">Sign in</button>
+        <button onClick = {connectWalletHandler} className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">Sign up</button>
       </form>
       
     </div>
