@@ -8,7 +8,7 @@ const Hero = () => {
       <header className="">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
           <h1 className="text-5xl font-bold text-[#2D2926]  text-center mb-4">
-            Keep your <span className="text-[#AE1B1B] text-6xl">will</span> safe
+            Keep your <span className="text-[#AE1B1B] text-7xl">will</span> safe
             and secure
           </h1>
           <p className="text-center text-[1.2rem]">Store them with us</p>

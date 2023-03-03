@@ -22,7 +22,7 @@ const Signin = () => {
     await connectWallet();
   };
 
-  const connectWallet = async (evt) => {
+  const connectWalletHandler = async (evt) => {
     if (typeof window !== "undefined" && window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -81,7 +81,7 @@ const Signin = () => {
       </div>
       <p className="text-[#FBE7EE] w-[30%] my-10">{error}</p>
       <p className="text-[#caa5b2] w-[30%] my-10">
-        Login usin with this Ethereum Address: {ethaddress}
+        Login with this Ethereum Address: {ethaddress}
       </p>
     </div>
   );

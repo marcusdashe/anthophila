@@ -22,7 +22,7 @@ const Signin = () => {
     await connectWallet();
   };
 
-  const connectWallet = async (evt) => {
+  const connectWalletHandler = async (evt) => {
     if (typeof window !== "undefined" && window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });

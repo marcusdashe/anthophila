@@ -22,7 +22,7 @@ const Signin = () => {
     await connectWallet();
   };
 
-  const connectWallet = async (evt) => {
+  const connectWalletHandler = async (evt) => {
     if (typeof window !== "undefined" && window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -68,21 +68,19 @@ const Signin = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="border-[#5F3EB2] border-2 rounded-lg py-2 px-3 w-full"
             />
           </div>
 
-          <button className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">
+          <button
+            onClick={connectWalletHandler}
+            className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3"
+          >
             Sign in
           </button>
         </form>
       </div>
-      <p className="text-[#FBE7EE] w-[30%] my-10">{error}</p>
-      <p className="text-[#caa5b2] w-[30%] my-10">
-        Login usin with this Ethereum Address: {ethaddress}
-      </p>
+      <p className="text-[#AE1B1B] w-[30%] my-10">{error}</p>
     </div>
   );
 };
