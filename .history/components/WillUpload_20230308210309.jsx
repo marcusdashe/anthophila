@@ -5,12 +5,8 @@ const WillUpload = (props) => {
   const [files, setFiles] = React.useState([]);
 
   const handleFileChange = (e) => {
-    const newFiles = Array.from(e);
-    setFiles(newFiles);
-
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(files[0]);
-
+    fileReader.readAsDataURL(file);
     fileReader.onload = () => {
       // Convert the base64 encoded string to a Uint8Array
       const uint8Array = Uint8Array.from(atob(fileReader.result), (c) =>

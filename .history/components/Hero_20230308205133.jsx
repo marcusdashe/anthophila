@@ -11,9 +11,7 @@ const Hero = () => {
             Welcome to{" "}
             <span className="text-[#AE1B1B] text-4xl">Anthophilia</span>
           </h1>
-          <p className="text-center text-[1.2rem]">
-            The Access to a Secured Will
-          </p>
+          <p className="text-center text-[1.2rem]">Store them with us</p>
         </div>
       </header>
       <section className=" w-[80%] md:w-[50%] bg-white shadow-md p-10 rounded-2xl flex justify-center items-center flex-col mt-20">

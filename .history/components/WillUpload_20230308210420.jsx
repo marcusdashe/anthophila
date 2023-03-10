@@ -10,7 +10,6 @@ const WillUpload = (props) => {
 
     const fileReader = new FileReader();
     fileReader.readAsDataURL(files[0]);
-
     fileReader.onload = () => {
       // Convert the base64 encoded string to a Uint8Array
       const uint8Array = Uint8Array.from(atob(fileReader.result), (c) =>
