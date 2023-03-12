@@ -12,7 +12,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [ethaddress, setEthaddress] = useState("");
   const [signupAs, setSignupAs] = useState("");
-  const [signupSuccessfully, setSignupSuccessfully] = useState(false);
 
   const router = useRouter();
 
@@ -23,18 +22,13 @@ const Signup = () => {
   const callSignupFunctionOnSC = async (evt) => {
     evt.preventDefault();
     await connectWallet();
-
-    setSignupSuccessfully(true);
-
-    if (signupSuccessfully) {
-      router.push("/signin");
-    }
   };
 
   const connectWallet = async () => {
     if (typeof window !== "undefined" && window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
+        console.log("Good....");
         setWeb3(new Web3(window.ethereum));
       } catch (error) {
         setError(error.message);
@@ -102,12 +96,12 @@ const Signup = () => {
             />
           </div>
 
-          <label htmlFor="signupAs">Signup as</label>
+          <label htmlFor="signupAs">Signup As</label>
           <select
             id="signupAs"
             value={signupAs}
             onChange={(e) => setSignupAs(e.target.value)}
-            className="border-1 mx-3 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-[#492823]"
+            className="border-2 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-[#492823]"
             required
           >
             <option value="">-- Select --</option>

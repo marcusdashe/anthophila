@@ -24,8 +24,6 @@ const Signup = () => {
     evt.preventDefault();
     await connectWallet();
 
-    setSignupSuccessfully(true);
-
     if (signupSuccessfully) {
       router.push("/signin");
     }

@@ -17,7 +17,7 @@ const Hero = () => {
         </div>
       </header>
       <section className=" w-[80%] md:w-[50%] bg-white shadow-md p-10 rounded-2xl flex justify-center items-center flex-col mt-20">
-        <p className="font-bold">Do you want to login as:</p>
+        <p className="font-bold">Login As</p>
         <div className="mt-7 flex flex-row space-x-7 justify-center">
           <Button isPrimary={true}>
             <Link href={{ pathname: "/signin", query: { user: "testator" } }}>
@@ -33,13 +33,13 @@ const Hero = () => {
           </Button>
         </div>
       </section>
-      <p className="w-[70%] text-center mt-10 mb-3 bottom-8 md:max-w-100 sm:max-w-50">
-        Would you like to officially declare the passing of a testator?{" "}
+      <p className="w-[70%] text-center fixed bottom-8 md:max-w-100 sm:max-w-50">
+        Do you want to proclaim the death of a testator?{" "}
         <Link
           className="text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500"
-          href={{ pathname: "/signin", query: { user: "doctor" } }}
+          href={"/proclaimTestatorDeath"}
         >
-          As a family Doctor or Coroner
+          Family Doctor
         </Link>
       </p>
     </div>

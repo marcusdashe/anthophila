@@ -39,7 +39,7 @@ const Hero = () => {
           className="text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500"
           href={{ pathname: "/signin", query: { user: "doctor" } }}
         >
-          As a family Doctor or Coroner
+          As a family doctor or Coroner
         </Link>
       </p>
     </div>

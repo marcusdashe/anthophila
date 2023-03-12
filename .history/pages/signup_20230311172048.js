@@ -12,7 +12,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [ethaddress, setEthaddress] = useState("");
   const [signupAs, setSignupAs] = useState("");
-  const [signupSuccessfully, setSignupSuccessfully] = useState(false);
 
   const router = useRouter();
 
@@ -24,10 +23,8 @@ const Signup = () => {
     evt.preventDefault();
     await connectWallet();
 
-    setSignupSuccessfully(true);
-
-    if (signupSuccessfully) {
-      router.push("/signin");
+    if (true) {
+      router.push("/login");
     }
   };
 

@@ -4,34 +4,21 @@ import Web3 from "web3";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Link from "next/link";
 
-const Signup = () => {
+const Signin = () => {
   const [error, setError] = useState("");
   const [web3, setWeb3] = useState(null);
-  const [user, setUser] = useState("");
-  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [ethaddress, setEthaddress] = useState("");
   const [signupAs, setSignupAs] = useState("");
-  const [signupSuccessfully, setSignupSuccessfully] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    setUser(router.query.user);
-  }, [user]);
 
   const callSignupFunctionOnSC = async (evt) => {
     evt.preventDefault();
     await connectWallet();
-
-    setSignupSuccessfully(true);
-
-    if (signupSuccessfully) {
-      router.push("/signin");
-    }
   };
 
-  const connectWallet = async () => {
+  const connectWallet = async (evt) => {
     if (typeof window !== "undefined" && window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -43,13 +30,10 @@ const Signup = () => {
       window.alert("Please install metamask");
     }
     if (web3) {
-      // setEthaddress(web3.eth.accounts[0]);
-      // setEthaddress(await web3.eth.requestAccounts()[0]);
+      // Use web3 to interact with the blockchain
       setEthaddress(ethereum.selectedAddress);
-      console.log(ethaddress);
     }
   };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <figure className="fixed top-10 left-10">
@@ -67,24 +51,8 @@ const Signup = () => {
         <span className="text-2xl text-[#492823] mr-1 pt-2 ">Anthophila</span>
       </div>
       <div className="bg-white p-10 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-medium mb-4">Create an account</h1>
+        <h1 className="text-2xl font-medium mb-4">Login</h1>
         <form onSubmit={callSignupFunctionOnSC}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="border-[#5F3EB2] border-2 rounded-lg py-2 px-3 w-full"
-            />
-          </div>
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -101,8 +69,7 @@ const Signup = () => {
               className="border-[#5F3EB2] border-2 rounded-lg py-2 px-3 w-full"
             />
           </div>
-
-          <label htmlFor="signupAs">Signup as</label>
+          <label htmlFor="signupAs">Signin as</label>
           <select
             id="signupAs"
             value={signupAs}
@@ -117,16 +84,16 @@ const Signup = () => {
           </select>
 
           <button className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">
-            Sign up
+            Sign in
           </button>
         </form>
       </div>
       <p className="text-[#FBE7EE] w-[30%] my-10">{error}</p>
       <p className="text-[#caa5b2] w-[30%] my-10">
-        Sign up with this Ethereum Address: {ethaddress}
+        Login usin with this Ethereum Address: {ethaddress}
       </p>
     </div>
   );
 };
 
-export default Signup;
+export default Signin;

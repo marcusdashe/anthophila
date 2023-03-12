@@ -37,9 +37,9 @@ const Hero = () => {
         Would you like to officially declare the passing of a testator?{" "}
         <Link
           className="text-[#5F3EB2] p-2 font-bold rounded-lg hover:bg-[#D5D0ED] duration-500"
-          href={{ pathname: "/signin", query: { user: "doctor" } }}
+          href={"/signin"}
         >
-          As a family Doctor or Coroner
+          As a family doctor
         </Link>
       </p>
     </div>
