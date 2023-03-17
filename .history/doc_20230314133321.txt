@@ -1,0 +1,13 @@
+uploadWill(): allows the testator to upload the holographic will as a base64-encoded string.
+addBeneficiary(): allows the testator to add a beneficiary to the will.
+addDoctor(): allows the testator to add a doctor who can verify the death of the testator and notify the beneficiaries.
+viewBeneficiaries(): allows anyone to view the list of beneficiaries.
+viewDoctor(): allows anyone to view the doctor's details.
+viewTestator(): allows anyone to view the testator's details.
+deleteBeneficiary(): allows the testator to remove a beneficiary from the will.
+signupAsBeneficiary(): allows a beneficiary to sign up by providing their name and password.
+signupAsDoctor(): allows the doctor to sign up by providing their name and password.
+loginAsTestator(): allows the testator to log in by providing their Ethereum address and password.
+onlyTestator():
+onlyDoctor():
+isBeneficiaryAddress(): 

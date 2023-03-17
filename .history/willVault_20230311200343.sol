@@ -2,9 +2,6 @@ pragma solidity ^0.8.0;
 // SPDX-License-Identifier: MIT
 
 contract HolographicWill {
-
-     address private owner;
-
     // address of the testator
     struct TestatorDetails {
         address addr;
@@ -12,10 +9,7 @@ contract HolographicWill {
         string password;
         bool isUserLoggedIn;
         bool testatorAlive; // boolean to indicate whether the testator is alive or not
-        string willEncoded; // IPFS hash of the holographic will file   
-        uint id;
     }
-
     struct UserDetails {
         address addr;
         string name;
@@ -25,19 +19,19 @@ contract HolographicWill {
         uint number;
     }
 
-    TestatorDetails[] testators;
+    TestatorDetails testator;
     UserDetails[] allBeneficiaries;
     UserDetails doctor;
 
     mapping(address => uint) BeneficiaryNumbers;
-    mapping(address => uint) Testator2IdMapping;
- 
+
+    string willEncoded; // IPFS hash of the holographic will file    
     mapping (address => bool) public EligibleAddresses;
 
 
     modifier onlyTestator(){
-        require(testators[Testator2IdMapping[msg.sender]].isUserLoggedIn == true, "User not logged in");
-
+        require(testator.isUserLoggedIn == true, "User not logged in");
+        require(msg.sender ==testator.addr, "Ownership Assertion: Caller is not the owner");
         _;
     }
 
@@ -48,7 +42,7 @@ contract HolographicWill {
     }
 
     modifier testatorIsNotAlive(){
-        require(testators[Testator2IdMapping[msg.sender]].testatorAlive == false, "Testator is deceased, cannot sign the will.");
+        require(testator.testatorAlive == false, "Testator is deceased, cannot sign the will.");
         _;
     }
 
@@ -60,15 +54,12 @@ contract HolographicWill {
         
     }
 
-     modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can call this function.");
-        _; // Continue executing the function if the modifier passes
-    }
-
     constructor(string memory _testatorName, string memory _password ) {
-
-        owner = msg.sender; // Set the creator of the contract to be the owner
-       
+        testator.addr = msg.sender; // set the testator as the contract creator
+        testator.testatorAlive = true;
+        testator.name = _testatorName;
+        testator.password = _password;
+        testator.isUserLoggedIn = false;
     }
 
     function uploadWill(string memory _base64) public onlyTestator() {
@@ -76,13 +67,8 @@ contract HolographicWill {
         
     }
 
-// Return owner of the smart contract
-    function getOwner() public view returns (address) {
-        return owner;
-    }
-
     function addBeneficiary(address _beneficiaryAddr, string memory _beneficiaryName) public onlyTestator() {
-        require(testators.isUserLoggedIn == true, "User not logged in");
+        require(testator.isUserLoggedIn == true, "User not logged in");
         uint _number = allBeneficiaries.length; // index of the new struct of the beneficiary to be added
 
         allBeneficiaries.push(UserDetails ({
@@ -113,9 +99,9 @@ contract HolographicWill {
     function viewDoctor() public view returns (UserDetails memory) {
         return doctor;
     }
-
+    
     function viewTestator() public view returns (TestatorDetails memory) {
-        return testators[Testator2IdMapping[msg.sender]];
+        return testator;
     }
 
     function deleteBeneficiary(address _beneficiaryAddr) public onlyTestator() {
@@ -138,24 +124,6 @@ contract HolographicWill {
             EligibleAddresses[_beneficiaryAddr]= false;
             delete BeneficiaryNumbers[_beneficiaryAddr];
         }
-    }
-
-    function signupAsTestator(address _address, string memory _name, string memory _password) public returns (bool){
-        require(_address != address(0), "Invalid address");
-
-        TestatorDetails memory newTestator = TestatorDetails({
-            addr: _address,
-            name: _name,
-            password: _password,
-            isUserLoggedIn: false,
-            testatorAlive: true,
-            id : testators.length
-        });
-
-            Testator2IdMapping[_address] = testators.length;
-
-            testators.push(newTestator);       
-            return true;
     }
 
     function signupAsBeneficiary(
@@ -186,11 +154,11 @@ contract HolographicWill {
     }
 
     function loginAsTestator(address _address, string memory _password) public returns (bool){
-        require(testators[Testator2IdMapping[msg.sender]].addr == _address, "User not registered");
-        require(!testators[Testator2IdMapping[msg.sender]].isUserLoggedIn, "User already logged in");
+        require(testator.addr == _address, "User not registered");
+        require(!testator.isUserLoggedIn, "User already logged in");
 
-        if(keccak256(abi.encodePacked(testators[Testator2IdMapping[msg.sender]].password, _address)) == keccak256(abi.encodePacked(_password, _address))){
-            testators[Testator2IdMapping[msg.sender]].isUserLoggedIn = true;
+        if(keccak256(abi.encodePacked(testator.password, _address)) == keccak256(abi.encodePacked(_password, _address))){
+            testator.isUserLoggedIn = true;
             return true;
         } else {
             return false;
@@ -225,9 +193,9 @@ contract HolographicWill {
     }
 
     function logoutTestator() public onlyTestator() {
-        require(testators[].isUserLoggedIn, "User not logged in");
+        require(testator.isUserLoggedIn, "User not logged in");
 
-        testators[Testator2IdMapping[msg.sender]].isUserLoggedIn = false;
+        testator.isUserLoggedIn = false;
     }
 
     function logoutBeneficiary(address _address) public isBeneficiaryAddress(_address) {
@@ -243,11 +211,11 @@ contract HolographicWill {
         doctor.isUserLoggedIn = false;
     }
 
-    function declareDeath(address _testatorAddress) public onlyDoctor returns(bool) {
-        testators[Testator2IdMapping[_testatorAddress]].testatorAlive = false;
-        return true;
+    function declareDeath() public onlyDoctor() {
+        testator.testatorAlive = false;
     }
 
+    
     function signWill(address _beneficiaryAddr) public testatorIsNotAlive() isBeneficiaryAddress(_beneficiaryAddr) {
         uint _number = BeneficiaryNumbers[_beneficiaryAddr];
         allBeneficiaries[_number].beneficiarySigned = true;
@@ -263,18 +231,14 @@ contract HolographicWill {
     }
     
     function getEncodedWill(address _address) public view isBeneficiaryAddress(_address) returns (string memory) {
-        require(testators[Testator2IdMapping[_address]].testatorAlive == false, "Testator is still alive, cannot reveal the will.");
+        require(testator.testatorAlive == false, "Testator is still alive, cannot reveal the will.");
         require(checkAllSigned(), "All beneficiaries must sign the will before the CID is revealed.");
-        return testators[Testator2IdMapping[msg.sender]].willEncoded;
+        return willEncoded;
     }
     
-    function destroy(address apocalypse) public onlyOwner{
-         if (apocalypse != address(0)) {
-            selfdestruct(payable(apocalypse));
-        } else {
-            selfdestruct(payable(owner));
-        }
-       
+    function destroy(address apocalypse) public {
+        selfdestruct(payable(apocalypse));
     }
+
 
 }

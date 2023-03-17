@@ -8,15 +8,11 @@ import Layout from "@/components/Layout";
 const Signin = () => {
   const [error, setError] = useState("");
   const [web3, setWeb3] = useState(null);
-  const [user, setUser] = useState();
   const [password, setPassword] = useState("");
   const [ethaddress, setEthaddress] = useState("");
+  const [signupAs, setSignupAs] = useState("");
 
   const router = useRouter();
-
-  useEffect(() => {
-    setUser(router.query.user);
-  }, [user]);
 
   const callSignupFunctionOnSC = async (evt) => {
     evt.preventDefault();
@@ -56,7 +52,7 @@ const Signin = () => {
           />
         </div>
         <div className="bg-white p-10 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-medium mb-4">Login as a {user}</h1>
+          <h1 className="text-2xl font-medium mb-4">Login</h1>
           <form onSubmit={callSignupFunctionOnSC}>
             <div className="mb-4">
               <label
@@ -74,6 +70,19 @@ const Signin = () => {
                 className="border-[#5F3EB2] border-2 rounded-lg py-2 px-3 w-full"
               />
             </div>
+            <label htmlFor="signupAs">Signin as</label>
+            <select
+              id="signupAs"
+              value={signupAs}
+              onChange={(e) => setSignupAs(e.target.value)}
+              className="border-1 mx-3 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-[#492823]"
+              required
+            >
+              <option value="">-- Select --</option>
+              <option value="testator">Testator</option>
+              <option value="beneficiary">Beneficiary</option>
+              <option value="doctor">Doctor/Coroner</option>
+            </select>
 
             <button className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">
               Sign in

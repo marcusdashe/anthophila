@@ -17,7 +17,7 @@ export const Nav = () => {
   return (
     <div className="md:fixed bg-white bg-opacity-[0.8] backdrop-blur-lg lg:fixed z-50 shadow-md w-full fixed top-0 left-0">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
-        <Link href={"/"}>
+        <Link>
           <div className="font-bold text-2xl cursor-pointer flex items-center text-gray-80 hover:scale-110 duration-500">
             <img
               src="/assets/logo.png"

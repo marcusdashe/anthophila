@@ -54,6 +54,7 @@ const Signin = () => {
             alt="logo"
             className="object-scale-down h-20 w-20"
           />
+          <span className="text-2xl text-[#492823] mr-1 pt-2 ">Anthophila</span>
         </div>
         <div className="bg-white p-10 rounded-lg shadow-lg">
           <h1 className="text-2xl font-medium mb-4">Login as a {user}</h1>
