@@ -90,6 +90,7 @@ modifier onlyLoggedInBeneficiary() {
     _;
 }
 
+
 modifier onlyDoctor() {
     bool found = false;
     for (uint i = 0; i < nonTestators.length; i++) {
@@ -101,6 +102,7 @@ modifier onlyDoctor() {
     require(found, "Only logged-in doctors can call this function");
     _;
 }
+
 	
 modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner of the smart contract can call this function.");
