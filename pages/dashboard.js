@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,30 +9,93 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import PersonIcon from "@mui/icons-material/Person";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import UpgradeIcon from "@mui/icons-material/Upgrade";
+import WcIcon from "@mui/icons-material/Wc";
+
+import {
+  AddBeneficiary,
+  CreateWill,
+  FetchBeneficiary,
+  FetchBeneficiaries,
+  Logout,
+  RemoveBeneficiary,
+  TestatorProfile,
+  Update,
+} from "../components/dashboard-testator";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const [action, setAction] = useState("testator_profile");
 
   const Menus = [
-    { title: "Dashboard" },
-    { title: "Pages", icon: <ContactPageIcon /> },
-    { title: "Media", spacing: true, icon: <PermMediaIcon /> },
     {
-      title: "Projects",
-      submenu: true,
-      icon: <AddReactionIcon />,
-      submenuItems: [
-        { title: "Submenu 1" },
-        { title: "Submenu 2" },
-        { title: "Submenu 3" },
-      ],
+      action_type: "testator_profile",
+      action_name: "View Testator Detail",
+      title: "Profile",
+      icon: <PersonIcon />,
     },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing: true },
-    { title: "Setting", icon: <SettingsApplicationsIcon /> },
-    { title: "Logout", icon: <LogoutIcon /> },
+    {
+      action_type: "create_will",
+      action_name: "Create Will",
+      title: "Create Will",
+      icon: <DescriptionIcon />,
+    },
+    {
+      action_type: "add_beneficiary",
+      action_name: "Add Beneficary",
+      title: "Add Beneficiary",
+      icon: <PersonAddAlt1Icon />,
+    },
+    {
+      action_type: "remove_beneficiary",
+      action_name: "Remove Beneficiary",
+      title: "Remove Beneficiary",
+      icon: <PersonRemoveIcon />,
+      // spacing: true,
+    },
+    {
+      action_type: "fetch_beneficiary",
+      action_name: "Fetch Beneficiary",
+      title: "Fetch Beneficiary",
+      // spacing: true,
+      icon: <FingerprintIcon />,
+    },
+    {
+      action_type: "fetch_beneficiaries",
+      action_name: "Fetch All Benficiaries",
+      title: "Fetch All Beneficiaries",
+      icon: <WcIcon />,
+    },
+    {
+      action_type: "update",
+      action_name: "Update",
+      title: "Update",
+      icon: <UpgradeIcon />,
+    },
+
+    {
+      action_type: "logout",
+      action_name: "Testator Logout",
+      title: "Logout",
+      icon: <LogoutIcon />,
+    },
+
+    // {
+    //   title: "Fetch all Beneficiaries",
+    //   submenu: true,
+    //   icon: <AddReactionIcon />,
+    //   submenuItems: [
+    //     { title: "Submenu 1" },
+    //     { title: "Submenu 2" },
+    //     { title: "Submenu 3" },
+    //   ],
+    // },
   ];
 
   return (
@@ -51,15 +115,17 @@ const Dashboard = () => {
                                 } duration-300 border border-[#AE1B1B]`}
         />
         <div className="inline-flex items-center text-white">
-          <img
-            src="/assets/logo.png"
-            alt="logo"
-            className={`object-scale-down mr-2 h-20 w-20 
+          <Link href="/dashboard">
+            <img
+              src="/assets/logo.png"
+              alt="logo"
+              className={`object-scale-down mr-2 h-20 w-20 
                         bg-white rounded-full text-2xl 
                         cursor-pointer block float-left duration-500 ${
                           open && "rotate-[360deg]"
                         }`}
-          />
+            />
+          </Link>
           <h1
             className={`text-white origin-left font-medium ml-4 text-2xl duration-300 ${
               !open && "scale-0"
@@ -100,16 +166,25 @@ const Dashboard = () => {
                  hover:bg-white hover:text-black duration-300 
                  bg-opacity-100  ${menu.spacing ? "mt-6" : "mt-2"}`}
               >
-                <span className="text-2xl block float-left">
-                  {menu.icon ? menu.icon : <DashboardIcon />}
-                </span>
-                <span
-                  className={`text-base font-medium flex-1 duration-500 ${
-                    !open && "hidden"
-                  }`}
+                <button
+                  key={index}
+                  onClick={() => {
+                    setAction(menu.action_type);
+                  }}
+                  className="flex items-center gap-x-4 cursor-pointer rounded px-1
+                 bg-opacity-100"
                 >
-                  {menu.title}
-                </span>
+                  <span className="text-2xl block float-left">
+                    {menu.icon ? menu.icon : <DashboardIcon />}
+                  </span>
+                  <span
+                    className={`text-base font-medium flex-1 duration-500 ${
+                      !open && "hidden"
+                    }`}
+                  >
+                    {menu.title}
+                  </span>
+                </button>
                 {menu.submenu && open && (
                   <ArrowDropDownIcon
                     className={`${submenuOpen && "rotate-180"} duration-500`}
@@ -117,6 +192,7 @@ const Dashboard = () => {
                   />
                 )}
               </li>
+
               {menu.submenu && submenuOpen && open && (
                 <ul>
                   {menu.submenuItems.map((submenuItem, index) => (
@@ -141,7 +217,66 @@ const Dashboard = () => {
       </div>
 
       <div className="p-7">
-        <h1 className="text-2xl font-semibold"> Home Page</h1>
+        {/* {actions.map((action, idx) => {
+          return (
+            <button
+              key={idx}
+              onClick={() => {
+                setAction(action.action_type);
+              }}
+              className="bg-[#3b302f] text-white flex items-center content-center justify-start text-sm mt-3 w-full p-2 pl-5 pr-5 rounded-md"
+            >
+              {action.action_name}
+            </button>
+          );
+        })} */}
+        <div className="w-5/6 min-h-[100vh]">
+          {action === undefined ? (
+            <>
+              <h1>Please Select an Action</h1>
+            </>
+          ) : (
+            <>
+              {action === "testator_profile" ? (
+                <>
+                  <TestatorProfile />
+                </>
+              ) : action === "create_will" ? (
+                <>
+                  <CreateWill />
+                </>
+              ) : action === "add_beneficiary" ? (
+                <>
+                  <AddBeneficiary />
+                </>
+              ) : action === "remove_beneficiary" ? (
+                <>
+                  <RemoveBeneficiary />
+                </>
+              ) : action === "fetch_beneficiary" ? (
+                <>
+                  <FetchBeneficiary />
+                </>
+              ) : action === "fetch_beneficiaries" ? (
+                <>
+                  <FetchBeneficiaries />
+                </>
+              ) : action === "update" ? (
+                <>
+                  <Update />
+                </>
+              ) : action === "logout" ? (
+                <>
+                  <Logout />
+                </>
+              ) : (
+                <>
+                  <CreateWill />
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
