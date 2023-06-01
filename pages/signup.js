@@ -1,53 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Web3 from "web3";
+import { ethers } from "ethers";
+import toast, { Toaster } from "react-hot-toast";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Link from "next/link";
 import Layout from "@/components/Layout";
+import artifacts from "@/src/artifacts/contracts/Holographic.sol/Holographic.json";
 
 const Signup = () => {
-  const [error, setError] = useState("");
-  const [web3, setWeb3] = useState(null);
+  const [error, setError] = useState(false);
+  const [hasMetamask, setHasMetamask] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [signer, setSigner] = useState(undefined);
   const [user, setUser] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [ethaddress, setEthaddress] = useState("");
   const [signupAs, setSignupAs] = useState("");
   const [signupSuccessfully, setSignupSuccessfully] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [contractAddress, setContractAddress] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    setUser(router.query.user);
-  }, [user]);
+    if (typeof window.ethereum !== "undefined") {
+      setHasMetamask(true);
+      setContractAddress(process.env.NEXT_PUBLIC_LOCALNET_CONTRACT_ADDRESS);
+    }
+  }, []);
+
+  const successNotification = () => {
+    toast.success("Testator Registered Successfully");
+  };
+
+  const errorNotification = (message) => {
+    toast.error(message);
+  };
 
   const callSignupFunctionOnSC = async (evt) => {
     evt.preventDefault();
-    await connectWallet();
 
-    setSignupSuccessfully(true);
-
-    if (signupSuccessfully) {
-      router.push("/signin");
-    }
-  };
-
-  const connectWallet = async () => {
-    if (typeof window !== "undefined" && window.ethereum !== "undefined") {
+    if (hasMetamask) {
       try {
+        setLoading(true);
+        setError(null);
+
+        // Connect to the smart contract
         await window.ethereum.request({ method: "eth_requestAccounts" });
-        setWeb3(new Web3(window.ethereum));
-      } catch (error) {
-        setError(error.message);
+        setIsConnected(true);
+        setEthaddress(ethereum.selectedAddress);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+
+        setSigner(await provider.getSigner());
+
+        const contract = new ethers.Contract(
+          "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          artifacts.abi,
+          signer
+        );
+
+        const tx = await contract.registerTestator.send(fullName, password);
+        // const receipt = await tx.wait();
+
+        setSignupSuccessfully(true);
+        successNotification();
+        if (signupSuccessfully && signupAs === "testator") {
+          router.push("/dashboard");
+        }
+      } catch (err) {
+        errorNotification(err.message);
+      } finally {
+        setLoading(false);
       }
-    } else {
-      window.alert("Please install metamask");
-    }
-    if (web3) {
-      // setEthaddress(web3.eth.accounts[0]);
-      // setEthaddress(await web3.eth.requestAccounts()[0]);
-      setEthaddress(ethereum.selectedAddress);
-      console.log(ethaddress);
     }
   };
 
@@ -60,13 +85,7 @@ const Signup = () => {
             <KeyboardBackspaceIcon fontSize="large" />
           </Link>
         </figure>
-        <div className="font-bold text-2xl cursor-pointer flex flex-col items-center text-gray-80 hover:scale-110 duration-500 mb-6">
-          <img
-            src="/assets/logo.png"
-            alt="logo"
-            className="object-scale-down h-20 w-20"
-          />
-        </div>
+        <div className="font-bold text-2xl cursor-pointer flex flex-col items-center text-gray-80 hover:scale-110 duration-500 mb-6"></div>
         <div className="bg-white p-10 rounded-lg shadow-lg">
           <h1 className="text-2xl font-medium mb-4">Create an account</h1>
           <form onSubmit={callSignupFunctionOnSC}>
@@ -117,16 +136,16 @@ const Signup = () => {
               <option value="doctor">Doctor/Coroner</option>
             </select>
 
-            <button className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] duration-500 hover:scale-110 duration-500  snm:mr-3">
-              Sign up
+            <button
+              disabled={loading}
+              className="bg-[#492823] w-150 text-white my-4 py-2 px-6 rounded-2xl md:mr-3 ml-0 hover:bg-[#D5D0ED] hover:text-[#492823] hover:scale-110 duration-500  snm:mr-3"
+            >
+              {loading ? "Loading..." : "Register"}
             </button>
           </form>
         </div>
-        <p className="text-[#FBE7EE] w-[30%] my-10">{error}</p>
-        <p className="text-[#caa5b2] w-[30%] my-3">
-          Sign up with this Ethereum Address: {ethaddress}
-        </p>
       </div>
+      <Toaster />
     </Layout>
   );
 };
